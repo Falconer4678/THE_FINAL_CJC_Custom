@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="en-US">
+
+  <info>
+    <title>Canadian Journal of Cardiology (Vancouver, custom)</title>
+    <title-short>Can J Cardiol</title-short>
+    <id>https://raw.githubusercontent.com/Falconer4678/CJC_Vancouver_Custom_Ryan/main/CJC_Vancouver_Custom_Ryan.csl</id>
+    <link href="https://raw.githubusercontent.com/Falconer4678/CJC_Vancouver_Custom_Ryan/main/CJC_Vancouver_Custom_Ryan.csl" rel="self"/>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <updated>2025-11-23T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">
+      This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License
+    </rights>
+  </info>
+
+  <!-- AUTHORS: LastName Initials; ≤6 list all, >6 first 6 + et al. -->
+  <macro name="author">
+    <names variable="author"
+           et-al-min="7"
+           et-al-use-first="6"
+           et-al-use-last="false">
+      <name name-as-sort-order="first"
+            initialize-with=""
+            delimiter=", "/>
+      <et-al term="et-al"/>
+    </names>
+  </macro>
+
+  <!-- Article title -->
+  <macro name="title">
+    <text variable="title"/>
+  </macro>
+
+  <!-- Journal abbreviation (you supply it in Mendeley) -->
+  <macro name="journal">
+    <text variable="container-title" form="short"/>
+  </macro>
+
+  <!-- Year only -->
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- Volume(issue) -->
+  <macro name="volume-issue">
+    <group>
+      <text variable="volume"/>
+      <group prefix="(" suffix=")">
+        <text variable="issue"/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- Pages / article number -->
+  <macro name="pages">
+    <text variable="page"/>
+  </macro>
+
+  <!-- Core journal article layout:
+       Authors. Title. Journal Year; Volume(issue): Pages.
+  -->
+  <macro name="journal-article">
+    <!-- Authors. -->
+    <text macro="author" suffix=". "/>
+    <!-- Title. -->
+    <text macro="title" suffix=". "/>
+    <!-- Journal Year; Volume(issue): Pages. -->
+    <group delimiter=" ">
+      <text macro="journal"/>
+      <group>
+        <text macro="year" suffix=";"/>
+      </group>
+      <group>
+        <text macro="volume-issue" suffix=":"/>
+        <text macro="pages" prefix=" " suffix="."/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- Fallback for non-journal items: just author + title for now -->
+  <macro name="generic">
+    <text macro="author" suffix=". "/>
+    <text macro="title" suffix="."/>
+  </macro>
+
+  <!-- CITATIONS: numeric, superscript, Vancouver-style -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout vertical-align="sup" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAPHY -->
+  <bibliography
+      entry-spacing="0"
+      line-spacing="1"
+      second-field-align="flush"
+      et-al-min="7"
+      et-al-use-first="6">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout>
+      <!-- Reference number -->
+      <text variable="citation-number" suffix=". "/>
+
+      <!-- Type-specific formatting -->
+      <choose>
+        <!-- Journal articles / magazines use strict CJC-like format -->
+        <if type="article-journal article-magazine" match="any">
+          <text macro="journal-article"/>
+        </if>
+        <!-- Everything else: simple generic -->
+        <else>
+          <text macro="generic"/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+
+</style>
