@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+  <info>
+    <title>Canadian Journal of Cardiology (Custom Ryan)</title>
+    <title-short>Can J Cardiol</title-short>
+    <id>http://www.citationstyles.org/styles/canadian-journal-of-cardiology-ryan</id>
+    <link rel="self" href="http://www.citationstyles.org/styles/canadian-journal-of-cardiology-ryan"/>
+    <author>
+      <name>Ryan Custom</name>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <updated>2025-11-17T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">
+      This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License
+    </rights>
+  </info>
+
+  <!-- AUTHORS: LastName Initials (glued, no punctuation), comma-separated; et al. if >6 -->
+  <macro name="author">
+    <names variable="author">
+      <name
+        name-as-sort-order="all"
+        sort-separator=" "
+        initialize-with=""
+        delimiter=", "
+        and="text"
+        et-al-min="7"
+        et-al-use-first="6"/>
+    </names>
+  </macro>
+
+  <!-- TITLE: use exactly what is stored in your reference manager (preserves mtDNA, NF-κB, etc.) -->
+  <macro name="title">
+    <text variable="title" suffix=". "/>
+  </macro>
+
+  <!-- JOURNAL ARTICLE FORMAT:
+       Smith J, Baker Y, ... et al. Title. Can J Cardiol 2025; 52(7): 199-208. -->
+  <macro name="journal-info">
+    <group>
+      <!-- Journal abbreviation, capitalized, non-italic -->
+      <text variable="container-title"
+            form="short"
+            strip-periods="true"
+            text-case="title"
+            suffix=" "/>
+      <!-- Year directly after journal name, then semicolon + space -->
+      <date variable="issued">
+        <date-part name="year" suffix="; "/>
+      </date>
+      <!-- Volume(issue) -->
+      <group>
+        <text variable="volume"/>
+        <text variable="issue" prefix="(" suffix=")"/>
+      </group>
+      <!-- : pages or article number -->
+      <text variable="page" prefix=": "/>
+      <text value="."/>
+    </group>
+  </macro>
+
+  <!-- GENERIC FALLBACK FOR NON-JOURNAL ITEMS (rough Vancouver) -->
+  <macro name="container-generic">
+    <group delimiter=". ">
+      <text variable="container-title"/>
+      <group>
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+      </group>
+      <group delimiter=" ">
+        <text variable="volume"/>
+        <text variable="page" prefix=":"/>
+      </group>
+    </group>
+    <text value="."/>
+  </macro>
+
+  <!-- IN-TEXT CITATION: superscript numeric (Vancouver style) -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout vertical-align="sup" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAPHY: numbered Vancouver list -->
+  <bibliography hanging-indent="true" entry-spacing="0" line-spacing="1">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout>
+      <!-- 1. -->
+      <text variable="citation-number" suffix=". "/>
+      <!-- Authors -->
+      <text macro="author" suffix=". "/>
+      <!-- Title -->
+      <text macro="title"/>
+      <!-- Type-specific formatting -->
+      <choose>
+        <!-- Journal articles use strict CJC format -->
+        <if type="article-journal article-magazine" match="any">
+          <text macro="journal-info"/>
+        </if>
+        <!-- Everything else uses generic Vancouver -->
+        <else>
+          <text macro="container-generic"/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
